@@ -32,18 +32,19 @@ const GeneratePdf: React.FC = () => {
    }}
   >
    <button
-    style={{
-     margin: '50px',
-     padding: '10px',
-     backgroundColor: 'black',
-     color: 'white',
-     fontFamily: 'Anton',
-     fontSize: '1.2rem',
-     textTransform: 'uppercase',
-     letterSpacing: '0.1rem',
-     cursor: 'pointer',
-     width: '200px',
-    }}
+    // style={{
+    //  margin: '50px',
+    //  padding: '10px',
+    //  backgroundColor: 'black',
+    //  color: 'white',
+    //  fontFamily: 'Anton',
+    //  fontSize: '1.2rem',
+    //  textTransform: 'uppercase',
+    //  letterSpacing: '0.1rem',
+    //  cursor: 'pointer',
+    //  width: '200px',
+    // }}
+    className="bg-red-500"
     onClick={handleGeneratePdf}
    >
     Generate Pdf

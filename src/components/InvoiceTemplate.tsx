@@ -4,6 +4,7 @@ const ContentTemplate: React.FC = () => {
  const styles = {
   coverBg: {
    position: 'absolute',
+   border: '1px solid black',
    left: 0,
    top: 0,
    zIndex: 0,
@@ -28,12 +29,12 @@ const ContentTemplate: React.FC = () => {
   } as CSSProperties,
   contentCard: {
    zIndex: 1,
-   backgroundColor: 'black',
+   //  backgroundColor: 'black',
   } as CSSProperties,
   title: {
-   fontFamily: 'Anton, Anton-Regular',
-   fontSize: '1rem',
-   color: 'white',
+   //  fontFamily: 'Anton, Anton-Regular',
+   //  fontSize: '1rem',
+   color: 'black',
    textAlign: 'center',
   } as CSSProperties,
   imgContainer: {
