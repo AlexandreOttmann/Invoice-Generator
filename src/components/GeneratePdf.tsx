@@ -1,59 +1,67 @@
 import { jsPDF } from 'jspdf';
 import React, { useRef } from 'react';
+import styled from '@emotion/styled';
+
 import ContentTemplate from './InvoiceTemplate';
-import '../assets/fonts/Anton-Regular-normal';
+
+const Container = styled('div')`
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 80px;
+`;
+
+const Button = styled('button')`
+  margin: 50px;
+  padding: 10px;
+  background-color: red;
+  color: white;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  cursor: pointer;
+  width: 200px;
+  :hover {
+    background-color: #000;
+  }
+`;
 
 const GeneratePdf: React.FC = () => {
- const certificateTemplateRef = useRef<any>(null);
+  const certificateTemplateRef = useRef<any>(null);
 
- const handleGeneratePdf = () => {
-  const doc = new jsPDF({
-   format: 'a4',
-   unit: 'px',
-  });
+  const handleGeneratePdf = () => {
+    const doc = new jsPDF({
+      format: 'a4',
+      unit: 'px',
+    });
 
-  // Adding the fonts
-  doc.setFont('Anton-Regular', 'normal');
+    // Adding the fonts
+    doc.setFont('Helvetica', 'Roboto', 'Arial');
 
-  doc.html(certificateTemplateRef.current, {
-   async callback(doc) {
-    // save the document as a PDF with name of Memes
-    doc.save('Memes');
-   },
-  });
- };
+    doc.html(certificateTemplateRef.current, {
+      async callback(doc) {
+        // save the document as a PDF with name of Memes
+        doc.save('Invoice');
+      },
+    });
+  };
 
- return (
-  <div
-   style={{
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'column',
-   }}
-  >
-   <button
-    // style={{
-    //  margin: '50px',
-    //  padding: '10px',
-    //  backgroundColor: 'black',
-    //  color: 'white',
-    //  fontFamily: 'Anton',
-    //  fontSize: '1.2rem',
-    //  textTransform: 'uppercase',
-    //  letterSpacing: '0.1rem',
-    //  cursor: 'pointer',
-    //  width: '200px',
-    // }}
-    className="bg-red-500"
-    onClick={handleGeneratePdf}
-   >
-    Generate Pdf
-   </button>
-   <div ref={certificateTemplateRef}>
-    <ContentTemplate />
-   </div>
-  </div>
- );
+  return (
+    <Container
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'column',
+      }}
+    >
+      <Button onClick={handleGeneratePdf}>Generate Pdf</Button>
+      <div ref={certificateTemplateRef}>
+        <ContentTemplate />
+      </div>
+    </Container>
+  );
 };
 
 export default GeneratePdf;
