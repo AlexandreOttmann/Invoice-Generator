@@ -9,12 +9,14 @@ import { Prestations } from './Invoice/Prestations';
 
 const Container = styled.div`
   display: flex;
-  border: 1px solid black;
+  /* border: 1px solid black;
+  height: 596px; */
   flex-direction: column;
   position: relative;
   overflow: hidden;
   width: 446px;
   padding: 20px;
+  box-shadow: 0px 0px 1px 1px #ccc;
 `;
 
 const Content = styled.div`

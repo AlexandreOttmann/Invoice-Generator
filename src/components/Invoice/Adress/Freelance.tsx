@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from '@emotion/styled';
+import { Context } from '../../../Context/Context';
 
 const FreelanceHeader = styled.div`
   color: grey;
@@ -41,6 +42,8 @@ const FreelanceAdressUl = styled.ul`
 `;
 
 export const Freelance = () => {
+  const [context, setContext] = useContext(Context);
+
   return (
     <FreelanceAdress>
       <FreelanceHeader>
@@ -49,12 +52,12 @@ export const Freelance = () => {
       <FreelanceAdressUl>
         {/* Adresse freelance */}
         <FreelanceReferenceList>
-          <strong>Oni Audio</strong>
+          <strong>{context?.freelanceNameSociety}</strong>
         </FreelanceReferenceList>
-        <FreelanceReferenceList>Nicolas De Raemy</FreelanceReferenceList>
-        <FreelanceReferenceList>8 rue de la paix</FreelanceReferenceList>
-        <FreelanceReferenceList>67480 Bordeaux France</FreelanceReferenceList>
-        <FreelanceReferenceList>SIRET : 69696966969</FreelanceReferenceList>
+        <FreelanceReferenceList>{context?.freelanceName}</FreelanceReferenceList>
+        <FreelanceReferenceList>{context?.freelanceStreet}</FreelanceReferenceList>
+        <FreelanceReferenceList>{context?.freelanceCity}</FreelanceReferenceList>
+        <FreelanceReferenceList>SIRET : {context?.freelanceSiret}</FreelanceReferenceList>
       </FreelanceAdressUl>
     </FreelanceAdress>
   );

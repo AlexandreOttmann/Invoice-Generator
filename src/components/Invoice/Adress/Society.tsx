@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from '@emotion/styled';
+import { Context } from '../../../Context/Context';
 
 const SocietyHeader = styled.div`
   color: grey;
@@ -41,6 +42,7 @@ const SocietyAdressUl = styled.ul`
 `;
 
 export const Society = () => {
+  const [context, setContext] = useContext(Context);
   return (
     <SocietyAdress>
       <SocietyHeader>
@@ -49,13 +51,13 @@ export const Society = () => {
       <SocietyAdressUl>
         {/* Adresse client */}
         <SocietyReferenceList>
-          <strong>SM LOCAL</strong>
+          <strong>{context?.societyName}</strong>
         </SocietyReferenceList>
-        <SocietyReferenceList>22-24 rue Jeuneurs</SocietyReferenceList>
-        <SocietyReferenceList>75002 Paris, France</SocietyReferenceList>
-        <SocietyReferenceList>Contact : Julien Zielinski </SocietyReferenceList>
-        <SocietyReferenceList>Numéro d'immatriculation : 52834183700045</SocietyReferenceList>
-        <SocietyReferenceList>TVA intracom : FR30528341837</SocietyReferenceList>
+        <SocietyReferenceList>{context?.societyStreet}</SocietyReferenceList>
+        <SocietyReferenceList>{context?.societyCity}</SocietyReferenceList>
+        <SocietyReferenceList>Contact : {context?.societyContact} </SocietyReferenceList>
+        <SocietyReferenceList>Numéro d'immatriculation : {context?.societyImmatriculation}</SocietyReferenceList>
+        <SocietyReferenceList>TVA intracom : {context?.societyTVAinterco}</SocietyReferenceList>
       </SocietyAdressUl>
     </SocietyAdress>
   );

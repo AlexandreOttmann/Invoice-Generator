@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from '@emotion/styled';
+import { Context } from '../../../Context/Context';
 
 const DocumentReference = styled.div`
   height: 80px;
-
   color: black;
   width: 50%;
 `;
@@ -30,13 +30,19 @@ const DocumentReferenceList = styled.li`
 `;
 
 export const HeaderInfos = () => {
+  const [context, setContext] = useContext(Context);
+
+  console.log(context[1]);
+
   return (
     <DocumentReference>
       <DocumentTitle>Facture</DocumentTitle>
       <DocumentReferenceUl>
-        <DocumentReferenceList>Numéro de facture : FR006P4U-22015</DocumentReferenceList>
-        <DocumentReferenceList>Émise le 7 déc. 2022</DocumentReferenceList>
-        <DocumentReferenceList>Référence du virement : MTH396ICoX</DocumentReferenceList>
+        <>
+          <DocumentReferenceList>Numéro de facture : {context?.reference}</DocumentReferenceList>
+          <DocumentReferenceList>Émise le {context?.date}</DocumentReferenceList>
+          <DocumentReferenceList>Référence du virement : {context?.paymentRef}</DocumentReferenceList>
+        </>
       </DocumentReferenceUl>
     </DocumentReference>
   );

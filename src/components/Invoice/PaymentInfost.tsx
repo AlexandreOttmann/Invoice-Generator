@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from '@emotion/styled';
+import { Context } from '../../Context/Context';
 
 const PaymentContent = styled.div`
   font-size: 6px;
@@ -18,13 +19,14 @@ const PaymentInformationLi = styled.li`
 `;
 
 export const PaymentInfos = () => {
+  const [context, setContext] = useContext(Context);
   return (
     <PaymentContent>
-      Pour payer par virement, veuillez utiliser les coordonnées bancaires ci-dessous en veillant à bien reporter la référence de la transaction : <>MTH396ICoX</>
+      Pour payer par virement, veuillez utiliser les coordonnées bancaires ci-dessous en veillant à bien reporter la référence de la transaction :<>{context?.paymentRef}</>
       <PaymentInformation>
-        <PaymentInformationLi>Bénéficiaire : MALT</PaymentInformationLi>
-        <PaymentInformationLi>IBAN : FR6021933000018J74MB4UH3F05</PaymentInformationLi>
-        <PaymentInformationLi>BIC : MPAYFRP1XXX</PaymentInformationLi>
+        <PaymentInformationLi>Bénéficiaire : {context?.benificiaryName}</PaymentInformationLi>
+        <PaymentInformationLi>IBAN : {context?.iban}</PaymentInformationLi>
+        <PaymentInformationLi>BIC : {context?.bic}</PaymentInformationLi>
       </PaymentInformation>
     </PaymentContent>
   );

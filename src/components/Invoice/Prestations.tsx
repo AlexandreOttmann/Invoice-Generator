@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from '@emotion/styled';
+import { Context } from '../../Context/Context';
 
 const PrestationHeader = styled.div`
   color: grey;
@@ -124,12 +125,13 @@ const TablePriceTdTwo = styled.td`
 `;
 
 export const Prestations = () => {
+  const [context, setContext] = useContext(Context);
   return (
     <DocumentPrestation>
       <PrestationHeader>
         <DocumentPrestationTitle>PRESTATION</DocumentPrestationTitle>
       </PrestationHeader>
-      <DocumentPrestationItem>Enregistrement VO 1 motion</DocumentPrestationItem>
+      {/* <DocumentPrestationItem>{context?.prestationName}</DocumentPrestationItem> */}
 
       <PrestationTable>
         <PrestationTableThead>
@@ -142,17 +144,10 @@ export const Prestations = () => {
         </PrestationTableThead>
         <tbody>
           <PrestationTableTrTwo>
-            <PrestationTableTd>Record / Edit/Mix & Sound Design d'une vidéo de 1 minutes + versioning</PrestationTableTd>
-            <PrestationTableTd style={{ textAlign: 'center' }}>1</PrestationTableTd>
-            <PrestationTableTd>300</PrestationTableTd>
-            <PrestationTableTd>300.00 €</PrestationTableTd>
-          </PrestationTableTrTwo>
-
-          <PrestationTableTrTwo>
-            <PrestationTableTd>Record / Edit/Mix & Sound Design d'une vidéo de 1 minutes + versioning</PrestationTableTd>
-            <PrestationTableTd style={{ textAlign: 'center' }}>1</PrestationTableTd>
-            <PrestationTableTd>300</PrestationTableTd>
-            <PrestationTableTd>300.00 €</PrestationTableTd>
+            <PrestationTableTd>{context?.prestationDescription}</PrestationTableTd>
+            <PrestationTableTd style={{ textAlign: 'center' }}>{context?.prestationQuantity}</PrestationTableTd>
+            <PrestationTableTd>{+context?.prestationPrice.toFixed(2)}</PrestationTableTd>
+            <PrestationTableTd>{+context?.prestationTotal.toFixed(2)} €</PrestationTableTd>
           </PrestationTableTrTwo>
         </tbody>
       </PrestationTable>
@@ -161,15 +156,15 @@ export const Prestations = () => {
         <TablePrice>
           <TablePriceTr>
             <TablePriceTdOne>Total (HT)</TablePriceTdOne>
-            <TablePriceTdTwo>300,00 €</TablePriceTdTwo>
+            <TablePriceTdTwo>{context?.prestationTotal.toFixed(2)} €</TablePriceTdTwo>
           </TablePriceTr>
           <TablePriceTr>
-            <TablePriceTdOne>TVA (0%)</TablePriceTdOne>
-            <TablePriceTdTwo>0,00 €</TablePriceTdTwo>
+            <TablePriceTdOne>TVA ({+context?.prestationTVA}%)</TablePriceTdOne>
+            <TablePriceTdTwo>{+context?.priceTVA.toFixed(2)}€</TablePriceTdTwo>
           </TablePriceTr>
           <TablePriceTr>
             <TablePriceTdOne>Total (TTC&nbsp;)</TablePriceTdOne>
-            <TablePriceTdTwo>300,00 €</TablePriceTdTwo>
+            <TablePriceTdTwo>{+context?.priceTVA.toFixed(2) + +context?.prestationTotal.toFixed(2)} €</TablePriceTdTwo>
           </TablePriceTr>
         </TablePrice>
       </TotalPrice>
