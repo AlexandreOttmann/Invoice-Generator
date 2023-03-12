@@ -362,6 +362,16 @@ export const FormComponent = () => {
     ]);
   };
 
+  interface InputList {
+    description: string;
+    quantity: number;
+    price: number;
+    TVA: number;
+    totalHT: number;
+    totalTVA: number;
+    totalTTC: number;
+  }
+
   const handleInputChange = (event: any, index: number) => {
     const { value } = event.target;
     console.log(typeof index);
