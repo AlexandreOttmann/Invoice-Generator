@@ -392,17 +392,7 @@ export const FormComponent = () => {
 
   const handleListAdd = (e: any) => {
     e.preventDefault();
-    setInputList([
-      ...inputList,
-      {
-        description: '',
-        quantity: 0,
-        price: 0,
-        TVA: 0,
-        totalHT: 0,
-        totalTTC: 0,
-      },
-    ]);
+    setInputList([...inputList]);
   };
 
   interface Index {
