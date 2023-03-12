@@ -55,6 +55,44 @@ const LabelInput = styled.label`
   line-height: 1.5rem;
 `;
 
+const ButtonAdd = styled.button`
+  display: inline-block;
+  font-weight: 400;
+  color: #fff;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background-color: #3b82f6;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.375rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  &:hover {
+    background-color: #2563eb;
+  }
+`;
+
+const ButtonRemove = styled.button`
+  display: inline-block;
+  font-weight: 400;
+  color: #fff;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background-color: #f56565;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.375rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  &:hover {
+    background-color: #e53e3e;
+  }
+`;
+
 interface IState {
   reference: string;
   date: string;
@@ -80,9 +118,33 @@ interface IState {
   prestationTotal: number;
   prestationTVA: number;
   priceTVA: number;
+  description: string;
+  quantity: number;
+  price: number;
+  TVA: number;
+  prestation: {
+    description: string;
+    quantity: number;
+    price: number;
+    TVA: number;
+    totalHT: number;
+    total: number;
+  }[];
+  totalHT: number;
+  totalTTC: number;
 }
 
 export const FormComponent = () => {
+  const [inputList, setInputList] = useState([
+    {
+      description: '',
+      quantity: 0,
+      price: 0,
+      TVA: 0,
+    },
+  ]);
+  const [isDisabled, setIsDisabled] = useState(false);
+
   const iniatialState: IState = {
     reference: '',
     date: '',
@@ -108,6 +170,22 @@ export const FormComponent = () => {
     prestationTotal: 0,
     prestationTVA: 0,
     priceTVA: 0,
+    description: '',
+    quantity: 0,
+    price: 0,
+    TVA: 0,
+    totalHT: 0,
+    totalTTC: 0,
+    prestation: [
+      {
+        description: '',
+        quantity: 0,
+        price: 0,
+        TVA: 0,
+        total: 0,
+        totalHT: 0,
+      },
+    ],
   };
 
   const reducer = (state: any, action: { type: any; payload: any }) => {
@@ -196,6 +274,9 @@ export const FormComponent = () => {
 
   useEffect(() => {
     handleChange();
+    if (inputList.length > 0) {
+      inputList[inputList.length - 1].description === '' ? setIsDisabled(true) : setIsDisabled(false);
+    }
   }, [
     reference,
     date,
@@ -221,6 +302,7 @@ export const FormComponent = () => {
     prestationTotal,
     prestationTVA,
     priceTVA,
+    inputList,
   ]);
 
   prestationTotal = prestationQuantity * prestationPrice;
@@ -263,8 +345,44 @@ export const FormComponent = () => {
       prestationTotal,
       prestationTVA,
       priceTVA,
+      prestations: inputList,
     });
   };
+
+  const handleListAdd = (e: any) => {
+    e.preventDefault();
+    setInputList([
+      ...inputList,
+      {
+        description: '',
+        quantity: 0,
+        price: 0,
+        TVA: 0,
+      },
+    ]);
+  };
+
+  const handleInputChange = (event: any, index: number) => {
+    const { value } = event.target;
+    console.log(typeof index);
+    const list = [...inputList];
+    list[index][event.currentTarget.name] = value;
+    list[index].totalHT = list[index].quantity * list[index].price;
+    list[index].totalTVA = list[index].totalHT * (list[index].TVA / 100);
+    list[index].totalTTC = list[index].totalHT + list[index].totalTVA;
+    // on ajoute la prestation au state
+    dispatch({ type: 'prestation', payload: list });
+
+    setInputList(list);
+  };
+
+  const handleRemoveItem = (index: number) => {
+    const newList = [...inputList];
+    newList.splice(index, 1);
+    setInputList(newList);
+  };
+
+  console.log(inputList);
 
   return (
     <div>
@@ -350,9 +468,47 @@ export const FormComponent = () => {
 
             <LabelInput htmlFor='prestationTVA'>TVA</LabelInput>
             <TextInput type='number' onChange={(e) => dispatch({ type: 'prestationTVA', payload: +e.target.value })} name='prestationTVA' />
+          </Box>
+        </Container>
+        <Container>
+          <Box>
+            {/*Add inputs for another prestation details*/}
+            {inputList.map((description, index) => (
+              <div key={index}>
+                <BoxTitle>Prestation n°{index + 1}</BoxTitle>
+                <LabelInput htmlFor='description'>Description de la prestation</LabelInput>
+                <TextInput id='outlined-basic' name='description' onChange={(event) => handleInputChange(event, index)} />
+                <LabelInput htmlFor='quantity'>Quantité</LabelInput>
+                <TextInput id='outlined-basic' type='number' name='quantity' onChange={(event) => handleInputChange(event, index)} />
+                <LabelInput htmlFor='price'>Prix unitaire</LabelInput>
+                <TextInput id='outlined-basic' type='number' name='price' onChange={(event) => handleInputChange(event, index)} />
+                <LabelInput htmlFor='TVA'>TVA</LabelInput>
+                <TextInput id='outlined-basic' type='number' name='TVA' onChange={(event) => handleInputChange(event, index)} />
+                {index === 0 ? (
+                  <ButtonAdd onClick={handleListAdd}>Ajouter une nouvelle prestation</ButtonAdd>
+                ) : (
+                  <>
+                    <ButtonRemove onClick={() => handleRemoveItem(index)}>Supprimer la prestation</ButtonRemove>
+                    <ButtonAdd onClick={handleListAdd}>Ajouter une nouvelle prestation</ButtonAdd>
+                  </>
+                )}
 
-            <LabelInput htmlFor='prestationTotal'>Prix Total (cacul automatiquement)</LabelInput>
-            <TextInput readOnly value={prestationTotal.toFixed(2)} name='prestationTotal' />
+                {/* <button onClick={() => handleRemoveItem(index)}>
+                  <span role='img' aria-label='x emoji'>
+                    ❌
+                  </span>
+                </button> */}
+              </div>
+            ))}
+            {/* <Button onClick={handleListAdd}>Ajouter une nouvelle prestation</Button> */}
+          </Box>
+        </Container>
+        <Container>
+          <Box>
+            <LabelInput htmlFor='prestationTotal'>Prix Total de la prestation HT</LabelInput>
+            <TextInput readOnly disabled value={prestationTotal.toFixed(2)} name='prestationTotal' />
+            <LabelInput htmlFor='prestationTotal'>Prix Total de la prestation TTC</LabelInput>
+            <TextInput readOnly disabled value={+priceTVA.toFixed(2) + +prestationTotal.toFixed(2)} name='prestationTotalTTC' />
           </Box>
         </Container>
       </form>

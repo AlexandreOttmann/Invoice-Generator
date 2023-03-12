@@ -9,8 +9,6 @@ import { Prestations } from './Invoice/Prestations';
 
 const Container = styled.div`
   display: flex;
-  /* border: 1px solid black;
-  height: 596px; */
   flex-direction: column;
   position: relative;
   overflow: hidden;
