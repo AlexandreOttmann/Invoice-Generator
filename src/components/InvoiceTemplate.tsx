@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { FooterInvoice } from './Invoice/Footer';
-import { PaymentInfos } from './Invoice/PaymentInfost';
+import { PaymentInfos } from './Invoice/PaymentInfos';
 import { HeaderInfos } from './Invoice/Header/HeaderInfos';
 import { HeaderLogo } from './Invoice/Header/HeaderLogo';
 import { Freelance } from './Invoice/Adress/Freelance';

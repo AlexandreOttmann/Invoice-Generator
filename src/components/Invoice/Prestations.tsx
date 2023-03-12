@@ -57,7 +57,7 @@ const PrestationTableTh = styled.th`
   font-weight: 700;
   font-size: 7px;
   text-align: left;
-  &:first-child {
+  &:first-of-type {
     width: 60%;
   }
 `;
@@ -74,13 +74,13 @@ const PrestationTableTd = styled.td`
   height: 20px;
   text-align: left;
   margin: 0 0 0 10px;
-  &:nth-child(2) {
+  &:nth-of-type(2) {
     text-align: center;
   }
-  &:nth-child(3) {
+  &:nth-of-type(3) {
     text-align: right;
   }
-  &:nth-child(4) {
+  &:nth-of-type(4) {
     text-align: right;
   }
 `;
@@ -124,6 +124,10 @@ const TablePriceTdTwo = styled.td`
   text-align: right;
 `;
 
+const PrestationTBody = styled.tbody`
+  height: 20px;
+`;
+
 export const Prestations = () => {
   const [context, setContext] = useContext(Context);
   return (
@@ -142,30 +146,32 @@ export const Prestations = () => {
             <PrestationTableTh style={{ textAlign: 'right' }}>TOTAL &nbsp; (HT)</PrestationTableTh>
           </PrestationTableTr>
         </PrestationTableThead>
-        <tbody>
+        <PrestationTBody>
           <PrestationTableTrTwo>
             <PrestationTableTd>{context?.prestationDescription}</PrestationTableTd>
             <PrestationTableTd style={{ textAlign: 'center' }}>{context?.prestationQuantity}</PrestationTableTd>
             <PrestationTableTd>{+context?.prestationPrice.toFixed(2)}</PrestationTableTd>
             <PrestationTableTd>{+context?.prestationTotal.toFixed(2)} €</PrestationTableTd>
           </PrestationTableTrTwo>
-        </tbody>
+        </PrestationTBody>
       </PrestationTable>
 
       <TotalPrice>
         <TablePrice>
-          <TablePriceTr>
-            <TablePriceTdOne>Total (HT)</TablePriceTdOne>
-            <TablePriceTdTwo>{context?.prestationTotal.toFixed(2)} €</TablePriceTdTwo>
-          </TablePriceTr>
-          <TablePriceTr>
-            <TablePriceTdOne>TVA ({+context?.prestationTVA}%)</TablePriceTdOne>
-            <TablePriceTdTwo>{+context?.priceTVA.toFixed(2)}€</TablePriceTdTwo>
-          </TablePriceTr>
-          <TablePriceTr>
-            <TablePriceTdOne>Total (TTC&nbsp;)</TablePriceTdOne>
-            <TablePriceTdTwo>{+context?.priceTVA.toFixed(2) + +context?.prestationTotal.toFixed(2)} €</TablePriceTdTwo>
-          </TablePriceTr>
+          <PrestationTBody>
+            <TablePriceTr>
+              <TablePriceTdOne>Total (HT)</TablePriceTdOne>
+              <TablePriceTdTwo>{context?.prestationTotal.toFixed(2)} €</TablePriceTdTwo>
+            </TablePriceTr>
+            <TablePriceTr>
+              <TablePriceTdOne>TVA ({+context?.prestationTVA}%)</TablePriceTdOne>
+              <TablePriceTdTwo>{+context?.priceTVA.toFixed(2)}€</TablePriceTdTwo>
+            </TablePriceTr>
+            <TablePriceTr>
+              <TablePriceTdOne>Total (TTC&nbsp;)</TablePriceTdOne>
+              <TablePriceTdTwo>{+context?.priceTVA.toFixed(2) + +context?.prestationTotal.toFixed(2)} €</TablePriceTdTwo>
+            </TablePriceTr>
+          </PrestationTBody>
         </TablePrice>
       </TotalPrice>
     </DocumentPrestation>

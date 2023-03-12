@@ -32,8 +32,6 @@ const DocumentReferenceList = styled.li`
 export const HeaderInfos = () => {
   const [context, setContext] = useContext(Context);
 
-  console.log(context[1]);
-
   return (
     <DocumentReference>
       <DocumentTitle>Facture</DocumentTitle>

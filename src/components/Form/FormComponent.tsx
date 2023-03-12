@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useReducer } from 'react';
 import { Context } from '../../Context/Context';
 import styled from '@emotion/styled';
 
@@ -55,36 +55,144 @@ const LabelInput = styled.label`
   line-height: 1.5rem;
 `;
 
+interface IState {
+  reference: string;
+  date: string;
+  paymentRef: string;
+  freelanceNameSociety: string;
+  freelanceName: string;
+  freelanceStreet: string;
+  freelanceCity: string;
+  freelanceSiret: string;
+  societyName: string;
+  societyStreet: string;
+  societyCity: string;
+  societyContact: string;
+  societyImmatriculation: string;
+  societyTVAinterco: string;
+  benificiaryName: string;
+  iban: string;
+  bic: string;
+  prestationName: string;
+  prestationDescription: string;
+  prestationQuantity: number;
+  prestationPrice: number;
+  prestationTotal: number;
+  prestationTVA: number;
+  priceTVA: number;
+}
+
 export const FormComponent = () => {
+  const iniatialState: IState = {
+    reference: '',
+    date: '',
+    paymentRef: '',
+    freelanceNameSociety: '',
+    freelanceName: '',
+    freelanceStreet: '',
+    freelanceCity: '',
+    freelanceSiret: '',
+    societyName: '',
+    societyStreet: '',
+    societyCity: '',
+    societyContact: '',
+    societyImmatriculation: '',
+    societyTVAinterco: '',
+    benificiaryName: '',
+    iban: '',
+    bic: '',
+    prestationName: '',
+    prestationDescription: '',
+    prestationQuantity: 1,
+    prestationPrice: 0,
+    prestationTotal: 0,
+    prestationTVA: 0,
+    priceTVA: 0,
+  };
+
+  const reducer = (state: any, action: { type: any; payload: any }) => {
+    switch (action.type) {
+      case 'reference':
+        return { ...state, reference: action.payload };
+      case 'date':
+        return { ...state, date: action.payload };
+      case 'paymentRef':
+        return { ...state, paymentRef: action.payload };
+      case 'freelanceNameSociety':
+        return { ...state, freelanceNameSociety: action.payload };
+      case 'freelanceName':
+        return { ...state, freelanceName: action.payload };
+      case 'freelanceStreet':
+        return { ...state, freelanceStreet: action.payload };
+      case 'freelanceCity':
+        return { ...state, freelanceCity: action.payload };
+      case 'freelanceSiret':
+        return { ...state, freelanceSiret: action.payload };
+      case 'societyName':
+        return { ...state, societyName: action.payload };
+      case 'societyStreet':
+        return { ...state, societyStreet: action.payload };
+      case 'societyCity':
+        return { ...state, societyCity: action.payload };
+      case 'societyContact':
+        return { ...state, societyContact: action.payload };
+      case 'societyImmatriculation':
+        return { ...state, societyImmatriculation: action.payload };
+      case 'societyTVAinterco':
+        return { ...state, societyTVAinterco: action.payload };
+      case 'benificiaryName':
+        return { ...state, benificiaryName: action.payload };
+      case 'iban':
+        return { ...state, iban: action.payload };
+      case 'bic':
+        return { ...state, bic: action.payload };
+      case 'prestationName':
+        return { ...state, prestationName: action.payload };
+      case 'prestationDescription':
+        return { ...state, prestationDescription: action.payload };
+      case 'prestationQuantity':
+        return { ...state, prestationQuantity: action.payload };
+      case 'prestationPrice':
+        return { ...state, prestationPrice: action.payload };
+      case 'prestationTVA':
+        return { ...state, prestationTVA: action.payload };
+      case 'priceTVA':
+        return { ...state, priceTVA: action.payload };
+      default:
+        return state;
+    }
+  };
+
+  const [state, dispatch] = useReducer(reducer, iniatialState);
+
+  let {
+    reference,
+    date,
+    paymentRef,
+    freelanceNameSociety,
+    freelanceName,
+    freelanceStreet,
+    freelanceCity,
+    freelanceSiret,
+    societyName,
+    societyStreet,
+    societyCity,
+    societyContact,
+    societyImmatriculation,
+    societyTVAinterco,
+    benificiaryName,
+    iban,
+    bic,
+    prestationName,
+    prestationDescription,
+    prestationQuantity,
+    prestationPrice,
+    prestationTotal,
+    prestationTVA,
+    priceTVA,
+  } = state;
+
   const [context, setContext] = useContext(Context);
-  const [reference, setReference] = useState('');
-  const [date, setDate] = useState('');
-  const [paymentRef, setPaymentRef] = useState('');
-
-  const [freelanceNameSociety, setFreelanceNameSociety] = useState('');
-  const [freelanceName, setFreelanceName] = useState('');
-  const [freelanceStreet, setFreelanceStreet] = useState('');
-  const [freelanceCity, setFreelanceCity] = useState('');
-  const [freelanceSiret, setFreelanceSiret] = useState('');
-
-  const [societyName, setSocietyName] = useState('');
-  const [societyStreet, setSocietyStreet] = useState('');
-  const [societyCity, setSocietyCity] = useState('');
-  const [societyContact, setSocietyContact] = useState('');
-  const [societyImmatriculation, setSocietyImmatriculation] = useState('');
-  const [societyTVAinterco, setSocietyTVAinterco] = useState('');
-
-  const [benificiaryName, setBenificiaryName] = useState('');
-  const [iban, setIban] = useState('');
-  const [bic, setBic] = useState('');
-
-  const [prestationName, setPrestationName] = useState('');
-  const [prestationDescription, setPrestationDescription] = useState('');
-  const [prestationQuantity, setPrestationQuantity] = useState(1);
-  const [prestationPrice, setPrestationPrice] = useState(0);
-  const [prestationTotal, setPrestationTotal] = useState(0);
-  const [prestationTVA, setPrestationTVA] = useState(0);
-  const [priceTVA, setPriceTVA] = useState(0);
 
   useEffect(() => {
     handleChange();
@@ -115,13 +223,21 @@ export const FormComponent = () => {
     priceTVA,
   ]);
 
+  prestationTotal = prestationQuantity * prestationPrice;
+  priceTVA = prestationTotal * (prestationTVA / 100);
+
   const handleChange = () => {
-    setPrestationTotal(prestationQuantity * prestationPrice);
     if (prestationTotal > 0) {
-      setPriceTVA(prestationTotal * (prestationTVA / 100));
+      dispatch({ type: 'prestationTotal', payload: +prestationQuantity * +prestationPrice });
     } else {
-      setPriceTVA(0);
+      dispatch({ type: 'prestationTotal', payload: 0 });
     }
+    if (prestationTotal > 0) {
+      dispatch({ type: 'priceTVA', payload: +prestationTotal * (+prestationTVA / 100) });
+    } else {
+      dispatch({ type: 'priceTVA', payload: 0 });
+    }
+
     setContext({
       reference,
       date,
@@ -156,27 +272,25 @@ export const FormComponent = () => {
         <Container>
           <Box>
             <BoxTitle>Information Facture</BoxTitle>
-
             <LabelInput htmlFor='reference'>Reference</LabelInput>
-            <TextInput onChange={(e) => setReference(e.target.value)} name='reference' />
+            <TextInput onChange={(e) => dispatch({ type: 'reference', payload: e.target.value })} name='reference' />
 
             <LabelInput htmlFor='date'>Date</LabelInput>
-            <TextInput type='date' onChange={(e) => setDate(e.target.value)} name='date' />
+            <TextInput type='date' onChange={(e) => dispatch({ type: 'date', payload: e.target.value })} name='date' />
 
             <LabelInput htmlFor='paymentRef'>Paiement Référence</LabelInput>
-            <TextInput onChange={(e) => setPaymentRef(e.target.value)} name='paymentRef' />
+            <TextInput onChange={(e) => dispatch({ type: 'paymentRef', payload: e.target.value })} name='paymentRef' />
           </Box>
           <Box>
             <BoxTitle>Information Bénéficiaire</BoxTitle>
-
             <LabelInput htmlFor='benificiaryName'>Nom du bénéficiaire</LabelInput>
-            <TextInput onChange={(e) => setBenificiaryName(e.target.value)} name='benificiaryName' />
+            <TextInput onChange={(e) => dispatch({ type: 'benificiaryName', payload: e.target.value })} name='benificiaryName' />
 
             <LabelInput htmlFor='iban'>IBAN</LabelInput>
-            <TextInput onChange={(e) => setIban(e.target.value)} name='iban' />
+            <TextInput onChange={(e) => dispatch({ type: 'iban', payload: e.target.value })} name='iban' />
 
             <LabelInput htmlFor='bic'>BIC</LabelInput>
-            <TextInput onChange={(e) => setBic(e.target.value)} name='bic' />
+            <TextInput onChange={(e) => dispatch({ type: 'bic', payload: e.target.value })} name='bic' />
           </Box>
         </Container>
         <Container>
@@ -184,58 +298,58 @@ export const FormComponent = () => {
             <BoxTitle>Information Prestataire</BoxTitle>
 
             <LabelInput htmlFor='freelanceNameSociety'>Nom de la socièté</LabelInput>
-            <TextInput onChange={(e) => setFreelanceNameSociety(e.target.value)} name='freelanceNameSociety' />
+            <TextInput onChange={(e) => dispatch({ type: 'freelanceNameSociety', payload: e.target.value })} name='freelanceNameSociety' />
 
             <LabelInput htmlFor='freelanceName'>Nom et prénom</LabelInput>
-            <TextInput onChange={(e) => setFreelanceName(e.target.value)} name='freelanceName' />
+            <TextInput onChange={(e) => dispatch({ type: 'freelanceName', payload: e.target.value })} name='freelanceName' />
 
             <LabelInput htmlFor='street'>Adresse</LabelInput>
-            <TextInput onChange={(e) => setFreelanceStreet(e.target.value)} name='street' />
+            <TextInput onChange={(e) => dispatch({ type: 'freelanceStreet', payload: e.target.value })} name='street' />
 
             <LabelInput htmlFor='city'>Code postal et ville</LabelInput>
-            <TextInput onChange={(e) => setFreelanceCity(e.target.value)} name='city' />
+            <TextInput onChange={(e) => dispatch({ type: 'freelanceCity', payload: e.target.value })} name='city' />
 
             <LabelInput htmlFor='siret'>Siret</LabelInput>
-            <TextInput onChange={(e) => setFreelanceSiret(e.target.value)} name='siret' />
+            <TextInput onChange={(e) => dispatch({ type: 'freelanceSiret', payload: e.target.value })} name='siret' />
           </Box>
           <Box>
             <BoxTitle>Information Client</BoxTitle>
             <LabelInput htmlFor='societyName'>Nom de la socièté</LabelInput>
-            <TextInput onChange={(e) => setSocietyName(e.target.value)} name='societyName' />
+            <TextInput onChange={(e) => dispatch({ type: 'societyName', payload: e.target.value })} name='societyName' />
 
             <LabelInput htmlFor='societyStreet'>Adresse de la socièté</LabelInput>
-            <TextInput onChange={(e) => setSocietyStreet(e.target.value)} name='societyStreet' />
+            <TextInput onChange={(e) => dispatch({ type: 'societyStreet', payload: e.target.value })} name='societyStreet' />
 
             <LabelInput htmlFor='societyCity'>Code postal et ville</LabelInput>
-            <TextInput onChange={(e) => setSocietyCity(e.target.value)} name='societyCity' />
+            <TextInput onChange={(e) => dispatch({ type: 'societyCity', payload: e.target.value })} name='societyCity' />
 
             <LabelInput htmlFor='societyContact'>Nom et prénom du contact</LabelInput>
-            <TextInput onChange={(e) => setSocietyContact(e.target.value)} name='societyContact' />
+            <TextInput onChange={(e) => dispatch({ type: 'societyContact', payload: e.target.value })} name='societyContact' />
 
             <LabelInput htmlFor='societyImmatriculation'>Numéro d'immatriculation</LabelInput>
-            <TextInput onChange={(e) => setSocietyImmatriculation(e.target.value)} name='societyImmatriculation' />
+            <TextInput onChange={(e) => dispatch({ type: 'societyImmatriculation', payload: e.target.value })} name='societyImmatriculation' />
 
             <LabelInput htmlFor='societyTVAinterco'>TVA intracom</LabelInput>
-            <TextInput onChange={(e) => setSocietyTVAinterco(e.target.value)} name='societyTVAinterco' />
+            <TextInput onChange={(e) => dispatch({ type: 'societyTVAinterco', payload: e.target.value })} name='societyTVAinterco' />
           </Box>
         </Container>
         <Container>
           <Box>
             <BoxTitle>Information Prestation</BoxTitle>
             <LabelInput htmlFor='prestationName'>Nom de la prestation</LabelInput>
-            <TextInput onChange={(e) => setPrestationName(e.target.value)} name='prestationName' />
+            <TextInput onChange={(e) => dispatch({ type: 'prestationName', payload: e.target.value })} name='prestationName' />
 
             <LabelInput htmlFor='prestationDescription'>Description de la prestation</LabelInput>
-            <TextInput onChange={(e) => setPrestationDescription(e.target.value)} name='prestationDescription' />
+            <TextInput onChange={(e) => dispatch({ type: 'prestationDescription', payload: e.target.value })} name='prestationDescription' />
 
             <LabelInput htmlFor='prestationQuantity'>Quantité</LabelInput>
-            <TextInput type='number' onChange={(e) => setPrestationQuantity(+e.target.value)} name='prestationQuantity' />
+            <TextInput type='number' onChange={(e) => dispatch({ type: 'prestationQuantity', payload: +e.target.value })} name='prestationQuantity' />
 
             <LabelInput htmlFor='prestationPrice'>Prix unitaire</LabelInput>
-            <TextInput type='number' onChange={(e) => setPrestationPrice(+e.target.value)} name='prestationPrice' />
+            <TextInput type='number' onChange={(e) => dispatch({ type: 'prestationPrice', payload: +e.target.value })} name='prestationPrice' />
 
             <LabelInput htmlFor='prestationTVA'>TVA</LabelInput>
-            <TextInput type='number' onChange={(e) => setPrestationTVA(+e.target.value)} name='prestationTVA' />
+            <TextInput type='number' onChange={(e) => dispatch({ type: 'prestationTVA', payload: +e.target.value })} name='prestationTVA' />
 
             <LabelInput htmlFor='prestationTotal'>Prix Total (cacul automatiquement)</LabelInput>
             <TextInput readOnly value={prestationTotal.toFixed(2)} name='prestationTotal' />
