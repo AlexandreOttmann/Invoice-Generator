@@ -130,13 +130,27 @@ const PrestationTBody = styled.tbody`
 
 export const Prestations = () => {
   const [context, setContext] = useContext(Context);
+
+  const prestationsPriceTotal = context.prestations?.reduce((acc: number, prestation: any) => {
+    return acc + prestation.totalHT;
+  }, 0);
+
+  const prestationsPriceTVA = context.prestations?.reduce((acc: number, prestation: any) => {
+    return acc + prestation.totalTVA;
+  }, 0);
+
+  const prestationsPriceTTC = context.prestations?.reduce((acc: number, prestation: any) => {
+    return acc + prestation.totalTTC;
+  }, 0);
+
+  console.log(prestationsPriceTotal);
+
+  console.log(context.prestations);
   return (
     <DocumentPrestation>
       <PrestationHeader>
         <DocumentPrestationTitle>PRESTATION</DocumentPrestationTitle>
       </PrestationHeader>
-      {/* <DocumentPrestationItem>{context?.prestationName}</DocumentPrestationItem> */}
-
       <PrestationTable>
         <PrestationTableThead>
           <PrestationTableTr>
@@ -147,12 +161,14 @@ export const Prestations = () => {
           </PrestationTableTr>
         </PrestationTableThead>
         <PrestationTBody>
-          <PrestationTableTrTwo>
-            <PrestationTableTd>{context?.prestationDescription}</PrestationTableTd>
-            <PrestationTableTd style={{ textAlign: 'center' }}>{context?.prestationQuantity}</PrestationTableTd>
-            <PrestationTableTd>{+context?.prestationPrice.toFixed(2)}</PrestationTableTd>
-            <PrestationTableTd>{+context?.prestationTotal.toFixed(2)} €</PrestationTableTd>
-          </PrestationTableTrTwo>
+          {context.prestations?.map((prestation: any) => (
+            <PrestationTableTrTwo>
+              <PrestationTableTd>{prestation?.description}</PrestationTableTd>
+              <PrestationTableTd style={{ textAlign: 'center' }}>{prestation?.quantity}</PrestationTableTd>
+              <PrestationTableTd>{+prestation?.price}</PrestationTableTd>
+              <PrestationTableTd>{+prestation?.totalHT.toFixed(2)} €</PrestationTableTd>
+            </PrestationTableTrTwo>
+          ))}
         </PrestationTBody>
       </PrestationTable>
 
@@ -161,15 +177,15 @@ export const Prestations = () => {
           <PrestationTBody>
             <TablePriceTr>
               <TablePriceTdOne>Total (HT)</TablePriceTdOne>
-              <TablePriceTdTwo>{context?.prestationTotal.toFixed(2)} €</TablePriceTdTwo>
+              <TablePriceTdTwo>{prestationsPriceTTC ? prestationsPriceTotal?.toFixed(2) : 0} €</TablePriceTdTwo>
             </TablePriceTr>
             <TablePriceTr>
-              <TablePriceTdOne>TVA ({+context?.prestationTVA}%)</TablePriceTdOne>
-              <TablePriceTdTwo>{+context?.priceTVA.toFixed(2)}€</TablePriceTdTwo>
+              <TablePriceTdOne>TVA</TablePriceTdOne>
+              <TablePriceTdTwo>{prestationsPriceTVA ? prestationsPriceTVA?.toFixed(2) : 0}€</TablePriceTdTwo>
             </TablePriceTr>
             <TablePriceTr>
               <TablePriceTdOne>Total (TTC&nbsp;)</TablePriceTdOne>
-              <TablePriceTdTwo>{+context?.priceTVA.toFixed(2) + +context?.prestationTotal.toFixed(2)} €</TablePriceTdTwo>
+              <TablePriceTdTwo>{prestationsPriceTTC ? prestationsPriceTTC?.toFixed(2) : 0} €</TablePriceTdTwo>
             </TablePriceTr>
           </PrestationTBody>
         </TablePrice>

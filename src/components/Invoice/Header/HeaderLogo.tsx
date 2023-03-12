@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from '@emotion/styled';
+import { Context } from '../../../Context/Context';
 
 const DocumentLogo = styled.div`
   height: auto;
@@ -8,10 +9,6 @@ const DocumentLogo = styled.div`
 `;
 
 export const HeaderLogo = () => {
-  return (
-    <DocumentLogo>
-      <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQc2Y2gmQB5zuaBd1AfN_AyEgoTgxPF65i7GwlvrbnnP_RUlubieG19WFnonCtS4ZfAox4&usqp=CAU' alt='logo' />
-      {/* <DocumentLogoIMG /> */}
-    </DocumentLogo>
-  );
+  const [context, setContext] = React.useContext(Context);
+  return <DocumentLogo>{context.logoFreelance && <img src={context.logoFreelance} alt='logo' />}</DocumentLogo>;
 };

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from '@emotion/styled';
+import { Context } from '../../Context/Context';
 
 const Footer = styled.div`
   display: flex;
@@ -18,11 +19,12 @@ const FooterObligation = styled.div`
 `;
 
 export const FooterInvoice = () => {
+  const [context, setContext] = useContext(Context);
   return (
     <Footer>
       <FooterMention>
-        Alexandre Ottmann, Entreprise Individuelle - Ottmann Alexandre Micro entrepreneur enregistré sous le numéro 84351374800015. Exonéré de TVA en vertu des articles 151-0 et 293 B du CGI, dans la
-        mesure où l'entreprise respecte les limites de chiffres d'affaires qui y sont fixées. Numéro de TVA Intracommunautaire : non renseigné
+        {context.freelanceName} Micro entrepreneur enregistré sous le numéro {context.freelanceSiret}. Exonéré de TVA en vertu des articles 151-0 et 293 B du CGI, dans la mesure où l'entreprise
+        respecte les limites de chiffres d'affaires qui y sont fixées. Numéro de TVA Intracommunautaire : non renseigné
       </FooterMention>
       <FooterObligation>
         La facture est payable sous 60 jours. Tout règlement effectué après expiration du délai donnera lieu, à titre de pénalité de retard, à la facturation d'un intérêt de retard égal à trois fois

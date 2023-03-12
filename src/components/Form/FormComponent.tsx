@@ -45,6 +45,22 @@ const TextInput = styled.input`
   padding: 10px;
 `;
 
+const FileInput = styled.input`
+  display: block;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+  margin-top: 0.5rem;
+  color: #111827;
+  width: 100%;
+  border-radius: 0.375rem;
+  border-width: 0;
+  box-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  --tw-ring-inset: inset;
+  --ring-color: #d1d5db;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  padding: 10px;
+`;
+
 const LabelInput = styled.label`
   display: block;
   margin-top: 15px;
@@ -93,8 +109,23 @@ const ButtonRemove = styled.button`
   }
 `;
 
+const FlexButton = styled.div`
+  display: flex;
+  margin: 10px 0;
+  gap: 6px;
+`;
+
+const BoxTitle2 = styled.h2`
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  font-weight: 500;
+  line-height: 1.75rem;
+  color: #111827;
+`;
+
 interface IState {
   reference: string;
+  logoFreelance: string;
   date: string;
   paymentRef: string;
   freelanceNameSociety: string;
@@ -141,12 +172,15 @@ export const FormComponent = () => {
       quantity: 0,
       price: 0,
       TVA: 0,
+      totalHT: 0,
+      total: 0,
     },
   ]);
   const [isDisabled, setIsDisabled] = useState(false);
 
   const iniatialState: IState = {
     reference: '',
+    logoFreelance: '',
     date: '',
     paymentRef: '',
     freelanceNameSociety: '',
@@ -194,6 +228,8 @@ export const FormComponent = () => {
         return { ...state, reference: action.payload };
       case 'date':
         return { ...state, date: action.payload };
+      case 'logoFreelance':
+        return { ...state, logoFreelance: action.payload };
       case 'paymentRef':
         return { ...state, paymentRef: action.payload };
       case 'freelanceNameSociety':
@@ -246,6 +282,7 @@ export const FormComponent = () => {
   let {
     reference,
     date,
+    logoFreelance,
     paymentRef,
     freelanceNameSociety,
     freelanceName,
@@ -271,6 +308,7 @@ export const FormComponent = () => {
   } = state;
 
   const [context, setContext] = useContext(Context);
+  console.log(logoFreelance);
 
   useEffect(() => {
     handleChange();
@@ -280,6 +318,7 @@ export const FormComponent = () => {
   }, [
     reference,
     date,
+    logoFreelance,
     paymentRef,
     freelanceNameSociety,
     freelanceName,
@@ -329,6 +368,7 @@ export const FormComponent = () => {
       freelanceStreet,
       freelanceCity,
       freelanceSiret,
+      logoFreelance,
       societyName,
       societyStreet,
       societyCity,
@@ -345,6 +385,7 @@ export const FormComponent = () => {
       prestationTotal,
       prestationTVA,
       priceTVA,
+
       prestations: inputList,
     });
   };
@@ -358,25 +399,35 @@ export const FormComponent = () => {
         quantity: 0,
         price: 0,
         TVA: 0,
+        totalHT: 0,
+        totalTTC: 0,
       },
     ]);
   };
 
-  interface InputList {
+  interface Index {
     description: string;
     quantity: number;
     price: number;
     TVA: number;
-    totalHT: number;
-    totalTVA: number;
-    totalTTC: number;
+    list: [
+      {
+        description?: string;
+        quantity?: number;
+        price?: number;
+        TVA?: number;
+        totalHT?: number;
+        totalTVA?: number;
+        totalTTC?: number;
+      },
+    ];
   }
 
-  const handleInputChange = (event: any, index: number) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const { value } = event.target;
     console.log(typeof index);
-    const list = [...inputList];
-    list[index][event.currentTarget.name] = value;
+    const list: any = [...inputList];
+    list[index][event.currentTarget.name as keyof Index] = value;
     list[index].totalHT = list[index].quantity * list[index].price;
     list[index].totalTVA = list[index].totalHT * (list[index].TVA / 100);
     list[index].totalTTC = list[index].totalHT + list[index].totalTVA;
@@ -401,24 +452,24 @@ export const FormComponent = () => {
           <Box>
             <BoxTitle>Information Facture</BoxTitle>
             <LabelInput htmlFor='reference'>Reference</LabelInput>
-            <TextInput onChange={(e) => dispatch({ type: 'reference', payload: e.target.value })} name='reference' />
+            <TextInput onChange={(e) => dispatch({ type: 'reference', payload: e.target.value })} name='reference' placeholder='Référence de la facture' />
 
             <LabelInput htmlFor='date'>Date</LabelInput>
             <TextInput type='date' onChange={(e) => dispatch({ type: 'date', payload: e.target.value })} name='date' />
 
             <LabelInput htmlFor='paymentRef'>Paiement Référence</LabelInput>
-            <TextInput onChange={(e) => dispatch({ type: 'paymentRef', payload: e.target.value })} name='paymentRef' />
+            <TextInput onChange={(e) => dispatch({ type: 'paymentRef', payload: e.target.value })} name='paymentRef' placeholder='Référence pour le paiement' />
           </Box>
           <Box>
             <BoxTitle>Information Bénéficiaire</BoxTitle>
             <LabelInput htmlFor='benificiaryName'>Nom du bénéficiaire</LabelInput>
-            <TextInput onChange={(e) => dispatch({ type: 'benificiaryName', payload: e.target.value })} name='benificiaryName' />
+            <TextInput onChange={(e) => dispatch({ type: 'benificiaryName', payload: e.target.value })} name='benificiaryName' placeholder='Nom du bénéficiare' />
 
             <LabelInput htmlFor='iban'>IBAN</LabelInput>
-            <TextInput onChange={(e) => dispatch({ type: 'iban', payload: e.target.value })} name='iban' />
+            <TextInput onChange={(e) => dispatch({ type: 'iban', payload: e.target.value })} name='iban' placeholder='IBAN du bénéficiaire' />
 
             <LabelInput htmlFor='bic'>BIC</LabelInput>
-            <TextInput onChange={(e) => dispatch({ type: 'bic', payload: e.target.value })} name='bic' />
+            <TextInput onChange={(e) => dispatch({ type: 'bic', payload: e.target.value })} name='bic' placeholder='BIC du bénéficaire' />
           </Box>
         </Container>
         <Container>
@@ -426,99 +477,71 @@ export const FormComponent = () => {
             <BoxTitle>Information Prestataire</BoxTitle>
 
             <LabelInput htmlFor='freelanceNameSociety'>Nom de la socièté</LabelInput>
-            <TextInput onChange={(e) => dispatch({ type: 'freelanceNameSociety', payload: e.target.value })} name='freelanceNameSociety' />
+            <TextInput onChange={(e) => dispatch({ type: 'freelanceNameSociety', payload: e.target.value })} name='freelanceNameSociety' placeholder='Nom de la société prestataire' />
 
             <LabelInput htmlFor='freelanceName'>Nom et prénom</LabelInput>
-            <TextInput onChange={(e) => dispatch({ type: 'freelanceName', payload: e.target.value })} name='freelanceName' />
+            <TextInput onChange={(e) => dispatch({ type: 'freelanceName', payload: e.target.value })} name='freelanceName' placeholder='Nom et prénom du gérant' />
 
             <LabelInput htmlFor='street'>Adresse</LabelInput>
-            <TextInput onChange={(e) => dispatch({ type: 'freelanceStreet', payload: e.target.value })} name='street' />
+            <TextInput onChange={(e) => dispatch({ type: 'freelanceStreet', payload: e.target.value })} name='street' placeholder='Adresse de la scoiété' />
 
             <LabelInput htmlFor='city'>Code postal et ville</LabelInput>
-            <TextInput onChange={(e) => dispatch({ type: 'freelanceCity', payload: e.target.value })} name='city' />
+            <TextInput onChange={(e) => dispatch({ type: 'freelanceCity', payload: e.target.value })} name='city' placeholder='Ville et code postal de la société' />
 
             <LabelInput htmlFor='siret'>Siret</LabelInput>
-            <TextInput onChange={(e) => dispatch({ type: 'freelanceSiret', payload: e.target.value })} name='siret' />
+            <TextInput onChange={(e) => dispatch({ type: 'freelanceSiret', payload: e.target.value })} name='siret' placeholder='Numéro de SIRET de la société' />
+
+            <LabelInput htmlFor='logoFreelance'>Logo</LabelInput>
+            <TextInput onChange={(e) => dispatch({ type: 'logoFreelance', payload: e.target.value })} name='logoFreelance' placeholder="Ajouter l'url de votre logo" />
           </Box>
           <Box>
             <BoxTitle>Information Client</BoxTitle>
             <LabelInput htmlFor='societyName'>Nom de la socièté</LabelInput>
-            <TextInput onChange={(e) => dispatch({ type: 'societyName', payload: e.target.value })} name='societyName' />
+            <TextInput onChange={(e) => dispatch({ type: 'societyName', payload: e.target.value })} name='societyName' placeholder='Nom de la société cliente' />
 
             <LabelInput htmlFor='societyStreet'>Adresse de la socièté</LabelInput>
-            <TextInput onChange={(e) => dispatch({ type: 'societyStreet', payload: e.target.value })} name='societyStreet' />
+            <TextInput onChange={(e) => dispatch({ type: 'societyStreet', payload: e.target.value })} name='societyStreet' placeholder='Adresse du client' />
 
             <LabelInput htmlFor='societyCity'>Code postal et ville</LabelInput>
-            <TextInput onChange={(e) => dispatch({ type: 'societyCity', payload: e.target.value })} name='societyCity' />
+            <TextInput onChange={(e) => dispatch({ type: 'societyCity', payload: e.target.value })} name='societyCity' placeholder='Code postal et ville du client' />
 
             <LabelInput htmlFor='societyContact'>Nom et prénom du contact</LabelInput>
-            <TextInput onChange={(e) => dispatch({ type: 'societyContact', payload: e.target.value })} name='societyContact' />
+            <TextInput onChange={(e) => dispatch({ type: 'societyContact', payload: e.target.value })} name='societyContact' placeholder='Contact interne' />
 
             <LabelInput htmlFor='societyImmatriculation'>Numéro d'immatriculation</LabelInput>
-            <TextInput onChange={(e) => dispatch({ type: 'societyImmatriculation', payload: e.target.value })} name='societyImmatriculation' />
+            <TextInput onChange={(e) => dispatch({ type: 'societyImmatriculation', payload: e.target.value })} name='societyImmatriculation' placeholder="Numéro d'immatriculation de la société" />
 
             <LabelInput htmlFor='societyTVAinterco'>TVA intracom</LabelInput>
-            <TextInput onChange={(e) => dispatch({ type: 'societyTVAinterco', payload: e.target.value })} name='societyTVAinterco' />
+            <TextInput onChange={(e) => dispatch({ type: 'societyTVAinterco', payload: e.target.value })} name='societyTVAinterco' placeholder='Numéro de TVA intercommunautaire' />
           </Box>
         </Container>
         <Container>
           <Box>
-            <BoxTitle>Information Prestation</BoxTitle>
-            <LabelInput htmlFor='prestationName'>Nom de la prestation</LabelInput>
-            <TextInput onChange={(e) => dispatch({ type: 'prestationName', payload: e.target.value })} name='prestationName' />
-
-            <LabelInput htmlFor='prestationDescription'>Description de la prestation</LabelInput>
-            <TextInput onChange={(e) => dispatch({ type: 'prestationDescription', payload: e.target.value })} name='prestationDescription' />
-
-            <LabelInput htmlFor='prestationQuantity'>Quantité</LabelInput>
-            <TextInput type='number' onChange={(e) => dispatch({ type: 'prestationQuantity', payload: +e.target.value })} name='prestationQuantity' />
-
-            <LabelInput htmlFor='prestationPrice'>Prix unitaire</LabelInput>
-            <TextInput type='number' onChange={(e) => dispatch({ type: 'prestationPrice', payload: +e.target.value })} name='prestationPrice' />
-
-            <LabelInput htmlFor='prestationTVA'>TVA</LabelInput>
-            <TextInput type='number' onChange={(e) => dispatch({ type: 'prestationTVA', payload: +e.target.value })} name='prestationTVA' />
-          </Box>
-        </Container>
-        <Container>
-          <Box>
+            <BoxTitle2>Descriptif des prestations</BoxTitle2>
             {/*Add inputs for another prestation details*/}
             {inputList.map((description, index) => (
               <div key={index}>
                 <BoxTitle>Prestation n°{index + 1}</BoxTitle>
                 <LabelInput htmlFor='description'>Description de la prestation</LabelInput>
-                <TextInput id='outlined-basic' name='description' onChange={(event) => handleInputChange(event, index)} />
+                <TextInput id='outlined-basic' name='description' onChange={(event) => handleInputChange(event, index)} placeholder='Détail de la prestation' />
                 <LabelInput htmlFor='quantity'>Quantité</LabelInput>
-                <TextInput id='outlined-basic' type='number' name='quantity' onChange={(event) => handleInputChange(event, index)} />
+                <TextInput id='outlined-basic' type='number' name='quantity' onChange={(event) => handleInputChange(event, index)} placeholder='Quantité' />
                 <LabelInput htmlFor='price'>Prix unitaire</LabelInput>
-                <TextInput id='outlined-basic' type='number' name='price' onChange={(event) => handleInputChange(event, index)} />
+                <TextInput id='outlined-basic' type='number' name='price' onChange={(event) => handleInputChange(event, index)} placeholder='Prix unitaire' />
                 <LabelInput htmlFor='TVA'>TVA</LabelInput>
-                <TextInput id='outlined-basic' type='number' name='TVA' onChange={(event) => handleInputChange(event, index)} />
+                <TextInput id='outlined-basic' type='number' name='TVA' onChange={(event) => handleInputChange(event, index)} placeholder='montant en pourcentage de TVA' />
                 {index === 0 ? (
-                  <ButtonAdd onClick={handleListAdd}>Ajouter une nouvelle prestation</ButtonAdd>
+                  <FlexButton>
+                    <ButtonAdd onClick={handleListAdd}>Ajouter une nouvelle prestation</ButtonAdd>
+                  </FlexButton>
                 ) : (
-                  <>
+                  <FlexButton>
                     <ButtonRemove onClick={() => handleRemoveItem(index)}>Supprimer la prestation</ButtonRemove>
                     <ButtonAdd onClick={handleListAdd}>Ajouter une nouvelle prestation</ButtonAdd>
-                  </>
+                  </FlexButton>
                 )}
-
-                {/* <button onClick={() => handleRemoveItem(index)}>
-                  <span role='img' aria-label='x emoji'>
-                    ❌
-                  </span>
-                </button> */}
               </div>
             ))}
-            {/* <Button onClick={handleListAdd}>Ajouter une nouvelle prestation</Button> */}
-          </Box>
-        </Container>
-        <Container>
-          <Box>
-            <LabelInput htmlFor='prestationTotal'>Prix Total de la prestation HT</LabelInput>
-            <TextInput readOnly disabled value={prestationTotal.toFixed(2)} name='prestationTotal' />
-            <LabelInput htmlFor='prestationTotal'>Prix Total de la prestation TTC</LabelInput>
-            <TextInput readOnly disabled value={+priceTVA.toFixed(2) + +prestationTotal.toFixed(2)} name='prestationTotalTTC' />
           </Box>
         </Container>
       </form>
