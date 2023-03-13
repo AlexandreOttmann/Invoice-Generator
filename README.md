@@ -1,9 +1,11 @@
 # Pdf Generator
 
-Pdf Generator is an Invoice generator in Pdf.
+A simple invoice generator made with React and Typescript. No backend.
 
 ## Dependency
 
 - Vite - React - Typescript
 - jspdf
-- MUI
+- React-Router
+- Tailwind
+- Emotion
