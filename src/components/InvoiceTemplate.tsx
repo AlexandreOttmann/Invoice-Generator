@@ -12,7 +12,7 @@ const Container = styled.div`
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  width: 446px;
+  max-width: 390px;
   padding: 20px;
   box-shadow: 0px 0px 1px 1px #ccc;
 `;
@@ -24,7 +24,7 @@ const Content = styled.div`
   justify-content: space-between;
   align-items: stretch;
   align-content: stretch;
-  margin: 10px 0 10px 0;
+  /* margin: 10px 0 10px 0; */
   font-size: 7px;
   font-weight: 400;
 `;

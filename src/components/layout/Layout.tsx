@@ -2,15 +2,15 @@ import Header from './Header';
 import FooterPage from './FooterPage';
 
 const Layout = ({ children }: any) => {
- return (
-  <div className="relative min-w-[32rem]">
-   <Header />
+  return (
+    <>
+      <Header />
 
-   {children}
+      {children}
 
-   <FooterPage />
-  </div>
- );
+      <FooterPage />
+    </>
+  );
 };
 
 export default Layout;
