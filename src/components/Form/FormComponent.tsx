@@ -4,9 +4,32 @@ import styled from '@emotion/styled';
 
 const Container = styled.div`
  display: flex;
+ flex-direction: column;
+ margin-bottom: 4em;
+ margin-right: auto;
+ margin-left: auto;
+`;
+const SubContainer = styled.div`
+ display: flex;
+ flex-direction: column;
+
  background-color: #eee;
- padding: 20px 10px;
+ min-width: 35rem;
+ padding: 30px 20px;
  justify-content: space-between;
+ width: 100%;
+
+ background: radial-gradient(circle, rgba(0, 0, 0, 0.1), transparent),
+  radial-gradient(ellipse at top, rgba(205, 209, 228, 0.2), transparent);
+
+ box-shadow: 12px 12px 16px 0 rgba(0, 0, 0, 0.15),
+  -8px -8px 12px 0 rgba(255, 255, 255, 0.2);
+ border-radius: 50px;
+`;
+const Shadow = styled.div`
+ //  border-radius: 53px;
+ //  background: linear-gradient(145deg, #4d4c83, #5b5a9c);
+ //  box-shadow: 21px 21px 42px #48477c, -21px -21px 42px #6261a8;
 `;
 
 const Box = styled.div`
@@ -22,11 +45,12 @@ const Box = styled.div`
 `;
 
 const BoxTitle = styled.h2`
- font-size: 1rem;
- margin-bottom: 10px;
+ text-align: center;
+ font-size: 1.2rem;
+ margin: 10px 0;
  font-weight: 500;
  line-height: 1.75rem;
- color: #111827;
+ color: #001f3f;
 `;
 
 const TextInput = styled.input`
@@ -66,7 +90,7 @@ const FileInput = styled.input`
 const LabelInput = styled.label`
  display: block;
  margin-top: 15px;
- color: #111827;
+ color: #001f3f;
  font-size: 0.875rem;
  line-height: 1.25rem;
  font-weight: 500;
@@ -79,6 +103,7 @@ const ButtonAdd = styled.button`
  color: #fff;
  text-align: center;
  vertical-align: middle;
+ margin-bottom: 20px;
  user-select: none;
  background-color: #3b82f6;
  border: 1px solid transparent;
@@ -98,6 +123,7 @@ const ButtonRemove = styled.button`
  font-weight: 400;
  color: #fff;
  text-align: center;
+ margin-bottom: 20px;
  vertical-align: middle;
  user-select: none;
  background-color: #f56565;
@@ -120,11 +146,14 @@ const FlexButton = styled.div`
 `;
 
 const BoxTitle2 = styled.h2`
- font-size: 1.5rem;
- margin-bottom: 10px;
+ text-align: center;
+ border-top: 1px solid white;
+ font-size: 1.2rem;
+ margin: 20px 0;
+ padding: 20px;
  font-weight: 500;
  line-height: 1.75rem;
- color: #111827;
+ color: #001f3f;
 `;
 
 interface IState {
@@ -463,237 +492,253 @@ export const FormComponent = () => {
  return (
   <div>
    <form onChange={handleChange}>
-    <Container>
-     <Box>
-      <BoxTitle>Information Facture</BoxTitle>
-      <LabelInput htmlFor="reference">Reference</LabelInput>
-      <TextInput
-       onChange={(e) =>
-        dispatch({ type: 'reference', payload: e.target.value })
-       }
-       name="reference"
-       placeholder="Référence de la facture"
-      />
+    <Shadow>
+     <Container>
+      <SubContainer>
+       <Box>
+        <BoxTitle>
+         Information <span className="text-sky-600 ">Facture</span>
+        </BoxTitle>
+        <LabelInput htmlFor="reference">Reference</LabelInput>
+        <TextInput
+         onChange={(e) =>
+          dispatch({ type: 'reference', payload: e.target.value })
+         }
+         name="reference"
+         placeholder="Référence de la facture"
+        />
 
-      <LabelInput htmlFor="date">Date</LabelInput>
-      <TextInput
-       type="date"
-       onChange={(e) => dispatch({ type: 'date', payload: e.target.value })}
-       name="date"
-      />
+        <LabelInput htmlFor="date">Date</LabelInput>
+        <TextInput
+         type="date"
+         onChange={(e) => dispatch({ type: 'date', payload: e.target.value })}
+         name="date"
+        />
 
-      <LabelInput htmlFor="paymentRef">Paiement Référence</LabelInput>
-      <TextInput
-       onChange={(e) =>
-        dispatch({ type: 'paymentRef', payload: e.target.value })
-       }
-       name="paymentRef"
-       placeholder="Référence pour le paiement"
-      />
-     </Box>
-     <Box>
-      <BoxTitle>Information Bénéficiaire</BoxTitle>
-      <LabelInput htmlFor="benificiaryName">Nom du bénéficiaire</LabelInput>
-      <TextInput
-       onChange={(e) =>
-        dispatch({ type: 'benificiaryName', payload: e.target.value })
-       }
-       name="benificiaryName"
-       placeholder="Nom du bénéficiare"
-      />
+        <LabelInput htmlFor="paymentRef">Paiement Référence</LabelInput>
+        <TextInput
+         onChange={(e) =>
+          dispatch({ type: 'paymentRef', payload: e.target.value })
+         }
+         name="paymentRef"
+         placeholder="Référence pour le paiement"
+        />
+       </Box>
+       <Box>
+        <BoxTitle>
+         Information <span className="text-sky-600 ">Bénéficiaire</span>
+        </BoxTitle>
+        <LabelInput htmlFor="benificiaryName">Nom du bénéficiaire</LabelInput>
+        <TextInput
+         onChange={(e) =>
+          dispatch({ type: 'benificiaryName', payload: e.target.value })
+         }
+         name="benificiaryName"
+         placeholder="Nom du bénéficiare"
+        />
 
-      <LabelInput htmlFor="iban">IBAN</LabelInput>
-      <TextInput
-       onChange={(e) => dispatch({ type: 'iban', payload: e.target.value })}
-       name="iban"
-       placeholder="IBAN du bénéficiaire"
-      />
+        <LabelInput htmlFor="iban">IBAN</LabelInput>
+        <TextInput
+         onChange={(e) => dispatch({ type: 'iban', payload: e.target.value })}
+         name="iban"
+         placeholder="IBAN du bénéficiaire"
+        />
 
-      <LabelInput htmlFor="bic">BIC</LabelInput>
-      <TextInput
-       onChange={(e) => dispatch({ type: 'bic', payload: e.target.value })}
-       name="bic"
-       placeholder="BIC du bénéficaire"
-      />
-     </Box>
-    </Container>
-    <Container>
-     <Box>
-      <BoxTitle>Information Prestataire</BoxTitle>
+        <LabelInput htmlFor="bic">BIC</LabelInput>
+        <TextInput
+         onChange={(e) => dispatch({ type: 'bic', payload: e.target.value })}
+         name="bic"
+         placeholder="BIC du bénéficaire"
+        />
+       </Box>
 
-      <LabelInput htmlFor="freelanceNameSociety">Nom de la socièté</LabelInput>
-      <TextInput
-       onChange={(e) =>
-        dispatch({ type: 'freelanceNameSociety', payload: e.target.value })
-       }
-       name="freelanceNameSociety"
-       placeholder="Nom de la société prestataire"
-      />
+       <Box>
+        <BoxTitle>
+         Information <span className="text-sky-600 ">Prestataire</span>
+        </BoxTitle>
 
-      <LabelInput htmlFor="freelanceName">Nom et prénom</LabelInput>
-      <TextInput
-       onChange={(e) =>
-        dispatch({ type: 'freelanceName', payload: e.target.value })
-       }
-       name="freelanceName"
-       placeholder="Nom et prénom du gérant"
-      />
-
-      <LabelInput htmlFor="street">Adresse</LabelInput>
-      <TextInput
-       onChange={(e) =>
-        dispatch({ type: 'freelanceStreet', payload: e.target.value })
-       }
-       name="street"
-       placeholder="Adresse de la scoiété"
-      />
-
-      <LabelInput htmlFor="city">Code postal et ville</LabelInput>
-      <TextInput
-       onChange={(e) =>
-        dispatch({ type: 'freelanceCity', payload: e.target.value })
-       }
-       name="city"
-       placeholder="Ville et code postal de la société"
-      />
-
-      <LabelInput htmlFor="siret">Siret</LabelInput>
-      <TextInput
-       onChange={(e) =>
-        dispatch({ type: 'freelanceSiret', payload: e.target.value })
-       }
-       name="siret"
-       placeholder="Numéro de SIRET de la société"
-      />
-
-      <LabelInput htmlFor="logoFreelance">Logo</LabelInput>
-      <TextInput
-       onChange={(e) =>
-        dispatch({ type: 'logoFreelance', payload: e.target.value })
-       }
-       name="logoFreelance"
-       placeholder="Ajouter l'url de votre logo"
-      />
-     </Box>
-     <Box>
-      <BoxTitle>Information Client</BoxTitle>
-      <LabelInput htmlFor="societyName">Nom de la socièté</LabelInput>
-      <TextInput
-       onChange={(e) =>
-        dispatch({ type: 'societyName', payload: e.target.value })
-       }
-       name="societyName"
-       placeholder="Nom de la société cliente"
-      />
-
-      <LabelInput htmlFor="societyStreet">Adresse de la socièté</LabelInput>
-      <TextInput
-       onChange={(e) =>
-        dispatch({ type: 'societyStreet', payload: e.target.value })
-       }
-       name="societyStreet"
-       placeholder="Adresse du client"
-      />
-
-      <LabelInput htmlFor="societyCity">Code postal et ville</LabelInput>
-      <TextInput
-       onChange={(e) =>
-        dispatch({ type: 'societyCity', payload: e.target.value })
-       }
-       name="societyCity"
-       placeholder="Code postal et ville du client"
-      />
-
-      <LabelInput htmlFor="societyContact">Nom et prénom du contact</LabelInput>
-      <TextInput
-       onChange={(e) =>
-        dispatch({ type: 'societyContact', payload: e.target.value })
-       }
-       name="societyContact"
-       placeholder="Contact interne"
-      />
-
-      <LabelInput htmlFor="societyImmatriculation">
-       Numéro d'immatriculation
-      </LabelInput>
-      <TextInput
-       onChange={(e) =>
-        dispatch({ type: 'societyImmatriculation', payload: e.target.value })
-       }
-       name="societyImmatriculation"
-       placeholder="Numéro d'immatriculation de la société"
-      />
-
-      <LabelInput htmlFor="societyTVAinterco">TVA intracom</LabelInput>
-      <TextInput
-       onChange={(e) =>
-        dispatch({ type: 'societyTVAinterco', payload: e.target.value })
-       }
-       name="societyTVAinterco"
-       placeholder="Numéro de TVA intercommunautaire"
-      />
-     </Box>
-    </Container>
-    <Container>
-     <Box>
-      <BoxTitle2>Descriptif des prestations</BoxTitle2>
-      {/*Add inputs for another prestation details*/}
-      {inputList.map((description, index) => (
-       <div key={index}>
-        <BoxTitle>Prestation n°{index + 1}</BoxTitle>
-        <LabelInput htmlFor="description">
-         Description de la prestation
+        <LabelInput htmlFor="freelanceNameSociety">
+         Nom de la socièté
         </LabelInput>
         <TextInput
-         id="outlined-basic"
-         name="description"
-         onChange={(event) => handleInputChange(event, index)}
-         placeholder="Détail de la prestation"
+         onChange={(e) =>
+          dispatch({ type: 'freelanceNameSociety', payload: e.target.value })
+         }
+         name="freelanceNameSociety"
+         placeholder="Nom de la société prestataire"
         />
-        <LabelInput htmlFor="quantity">Quantité</LabelInput>
+
+        <LabelInput htmlFor="freelanceName">Nom et prénom</LabelInput>
         <TextInput
-         id="outlined-basic"
-         type="number"
-         name="quantity"
-         onChange={(event) => handleInputChange(event, index)}
-         placeholder="Quantité"
+         onChange={(e) =>
+          dispatch({ type: 'freelanceName', payload: e.target.value })
+         }
+         name="freelanceName"
+         placeholder="Nom et prénom du gérant"
         />
-        <LabelInput htmlFor="price">Prix unitaire</LabelInput>
+
+        <LabelInput htmlFor="street">Adresse</LabelInput>
         <TextInput
-         id="outlined-basic"
-         type="number"
-         name="price"
-         onChange={(event) => handleInputChange(event, index)}
-         placeholder="Prix unitaire"
+         onChange={(e) =>
+          dispatch({ type: 'freelanceStreet', payload: e.target.value })
+         }
+         name="street"
+         placeholder="Adresse de la scoiété"
         />
-        <LabelInput htmlFor="TVA">TVA</LabelInput>
+
+        <LabelInput htmlFor="city">Code postal et ville</LabelInput>
         <TextInput
-         id="outlined-basic"
-         type="number"
-         name="TVA"
-         onChange={(event) => handleInputChange(event, index)}
-         placeholder="montant en pourcentage de TVA"
+         onChange={(e) =>
+          dispatch({ type: 'freelanceCity', payload: e.target.value })
+         }
+         name="city"
+         placeholder="Ville et code postal de la société"
         />
-        {index === 0 ? (
-         <FlexButton>
-          <ButtonAdd onClick={handleListAdd}>
-           Ajouter une nouvelle prestation
-          </ButtonAdd>
-         </FlexButton>
-        ) : (
-         <FlexButton>
-          <ButtonRemove onClick={() => handleRemoveItem(index)}>
-           Supprimer la prestation
-          </ButtonRemove>
-          <ButtonAdd onClick={(e) => handleListAdd(e)}>
-           Ajouter une nouvelle prestation
-          </ButtonAdd>
-         </FlexButton>
-        )}
-       </div>
-      ))}
-     </Box>
-    </Container>
+
+        <LabelInput htmlFor="siret">Siret</LabelInput>
+        <TextInput
+         onChange={(e) =>
+          dispatch({ type: 'freelanceSiret', payload: e.target.value })
+         }
+         name="siret"
+         placeholder="Numéro de SIRET de la société"
+        />
+
+        <LabelInput htmlFor="logoFreelance">Logo</LabelInput>
+        <TextInput
+         onChange={(e) =>
+          dispatch({ type: 'logoFreelance', payload: e.target.value })
+         }
+         name="logoFreelance"
+         placeholder="Ajouter l'url de votre logo"
+        />
+       </Box>
+       <Box>
+        <BoxTitle>
+         Information <span className="text-sky-600 ">Client</span>
+        </BoxTitle>
+        <LabelInput htmlFor="societyName">Nom de la socièté</LabelInput>
+        <TextInput
+         onChange={(e) =>
+          dispatch({ type: 'societyName', payload: e.target.value })
+         }
+         name="societyName"
+         placeholder="Nom de la société cliente"
+        />
+
+        <LabelInput htmlFor="societyStreet">Adresse de la socièté</LabelInput>
+        <TextInput
+         onChange={(e) =>
+          dispatch({ type: 'societyStreet', payload: e.target.value })
+         }
+         name="societyStreet"
+         placeholder="Adresse du client"
+        />
+
+        <LabelInput htmlFor="societyCity">Code postal et ville</LabelInput>
+        <TextInput
+         onChange={(e) =>
+          dispatch({ type: 'societyCity', payload: e.target.value })
+         }
+         name="societyCity"
+         placeholder="Code postal et ville du client"
+        />
+
+        <LabelInput htmlFor="societyContact">
+         Nom et prénom du contact
+        </LabelInput>
+        <TextInput
+         onChange={(e) =>
+          dispatch({ type: 'societyContact', payload: e.target.value })
+         }
+         name="societyContact"
+         placeholder="Contact interne"
+        />
+
+        <LabelInput htmlFor="societyImmatriculation">
+         Numéro d'immatriculation
+        </LabelInput>
+        <TextInput
+         onChange={(e) =>
+          dispatch({ type: 'societyImmatriculation', payload: e.target.value })
+         }
+         name="societyImmatriculation"
+         placeholder="Numéro d'immatriculation de la société"
+        />
+
+        <LabelInput htmlFor="societyTVAinterco">TVA intracom</LabelInput>
+        <TextInput
+         onChange={(e) =>
+          dispatch({ type: 'societyTVAinterco', payload: e.target.value })
+         }
+         name="societyTVAinterco"
+         placeholder="Numéro de TVA intercommunautaire"
+        />
+       </Box>
+
+       <Box>
+        <BoxTitle2>
+         Descriptif des <span className="text-sky-600 "> Prestations</span>
+        </BoxTitle2>
+        {/*Add inputs for another prestation details*/}
+        {inputList.map((description, index) => (
+         <div key={index}>
+          <BoxTitle>Prestation n°{index + 1}</BoxTitle>
+          <LabelInput htmlFor="description">
+           Description de la prestation
+          </LabelInput>
+          <TextInput
+           id="outlined-basic"
+           name="description"
+           onChange={(event) => handleInputChange(event, index)}
+           placeholder="Détail de la prestation"
+          />
+          <LabelInput htmlFor="quantity">Quantité</LabelInput>
+          <TextInput
+           id="outlined-basic"
+           type="number"
+           name="quantity"
+           onChange={(event) => handleInputChange(event, index)}
+           placeholder="Quantité"
+          />
+          <LabelInput htmlFor="price">Prix unitaire</LabelInput>
+          <TextInput
+           id="outlined-basic"
+           type="number"
+           name="price"
+           onChange={(event) => handleInputChange(event, index)}
+           placeholder="Prix unitaire"
+          />
+          <LabelInput htmlFor="TVA">TVA</LabelInput>
+          <TextInput
+           id="outlined-basic"
+           type="number"
+           name="TVA"
+           onChange={(event) => handleInputChange(event, index)}
+           placeholder="montant en pourcentage de TVA"
+          />
+          {index === 0 ? (
+           <FlexButton>
+            <ButtonAdd onClick={handleListAdd}>
+             Ajouter une nouvelle prestation
+            </ButtonAdd>
+           </FlexButton>
+          ) : (
+           <FlexButton>
+            <ButtonRemove onClick={() => handleRemoveItem(index)}>
+             Supprimer la prestation
+            </ButtonRemove>
+            <ButtonAdd onClick={(e) => handleListAdd(e)}>
+             Ajouter une nouvelle prestation
+            </ButtonAdd>
+           </FlexButton>
+          )}
+         </div>
+        ))}
+       </Box>
+      </SubContainer>
+     </Container>
+    </Shadow>
    </form>
   </div>
  );
