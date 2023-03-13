@@ -18,10 +18,9 @@ const Button = styled('button')`
  background-color: #3b82f6;
  color: white;
  font-size: 1.2rem;
- text-transform: uppercase;
  letter-spacing: 0.1rem;
  cursor: pointer;
- width: 200px;
+ min-width: 300px;
  transition: color 0.5s ease-in-out, background-color 0.2s ease-in-out,
   border-color 0.5s ease-in-out, box-shadow 0.3s ease-in-out;
  :hover {
@@ -61,7 +60,7 @@ const GeneratePdf: React.FC = () => {
    <div ref={certificateTemplateRef}>
     <ContentTemplate />
    </div>
-   <Button onClick={handleGeneratePdf}>GENERER LA FACTURE EN PDF</Button>
+   <Button onClick={handleGeneratePdf}>Générer la facture PDF</Button>
   </Container>
  );
 };

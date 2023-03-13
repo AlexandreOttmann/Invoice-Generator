@@ -1,5 +1,19 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Logo from '../../assets/img/logo.png';
+import styled from '@emotion/styled';
+
+const ImageLogo = styled.img`
+ height: 1.5rem;
+ margin-right: 0.75rem;
+ @media (min-width: 640px) {
+  height: 2.25rem;
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+ }
+ -webkit-filter: grayscale(100%);
+ filter: grayscale(100%);
+`;
 
 const Header = () => {
  const [isOpen, setIsOpen] = useState(true);
@@ -11,18 +25,14 @@ const Header = () => {
  };
 
  return (
-  <nav className="bg-white relative top-0 min-w-[32em] sm:w-full border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
+  <nav className="shadow-sm mb-10    relative top-0 min-w-[32em] sm:w-full border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
    <div className="container flex flex-wrap items-center justify-between mx-auto">
-    <a href="https://flowbite.com/" className="flex items-center">
-     <img
-      src="https://flowbite.com/docs/images/logo.svg"
-      className="h-6 mr-3 sm:h-9"
-      alt="Flowbite Logo"
-     />
+    <Link to="/" className="flex items-center">
+     <ImageLogo src={Logo} alt="Invoice Logo" />
      <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-      Flowbite
+      My Invoice
      </span>
-    </a>
+    </Link>
     <button
      onClick={toggle}
      data-collapse-toggle="navbar-default"
@@ -54,7 +64,7 @@ const Header = () => {
       <li>
        <Link
         to="/"
-        className="block py-2 pl-3 pr-4 text-slate-900  hover:text-white hover:bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
+        className="block py-2 pl-3 pr-4 bg-blue-400 text-slate-900   hover:text-blue-400  rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
         aria-current="page"
        >
         Home
