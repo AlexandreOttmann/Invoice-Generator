@@ -15,7 +15,7 @@ function Home() {
 
  return (
   <>
-   <div className="xl:flex xl:flex-row     bg-[##D7DFE0] ">
+   <div className="     sm:m-10 xl:flex xl:flex-row bg-[##D7DFE0] ">
     <FormComponent />
     <RightContainer>
      <GeneratePdf />

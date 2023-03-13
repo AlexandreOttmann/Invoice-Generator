@@ -3,7 +3,7 @@ import FooterPage from './FooterPage';
 
 const Layout = ({ children }: any) => {
  return (
-  <div className="relative">
+  <div className="relative min-w-[32rem]">
    <Header />
 
    {children}
